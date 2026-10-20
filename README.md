@@ -109,7 +109,7 @@ public final class GameModel {
 
 Mình thêm `drawCard()` và `deckSize()` để phần `Main` kiểm tra trạng thái dùng chung. Hai tham chiếu `first` và `second` trỏ đến cùng `GameModel`, nên rút bài qua `first` cũng làm số lá quan sát được qua `second` giảm đi.
 
-## 4. Chương trình minh họa và kết quả
+## 4. Code minh họa và kết quả
 
 `Main` gọi `instance()` hai lần, bắt đầu ván, rút một lá rồi bắt đầu ván mới lần nữa.
 
