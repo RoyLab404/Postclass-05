@@ -165,6 +165,6 @@ Postclass05
         └── Main.java
 ```
 
-Các lớp trong `e3.chapter3` được giữ nguyên từ [repo tham khảo](https://github.com/AnhKhoa06/postclass05_singleton). README của repo đó dẫn nguồn đến [DesignBook của Martin P. Robillard](https://github.com/prmr/DesignBook), thư mục `code-e3/e3/chapter3`.
+Các lớp `Card`, `CardSource`, `Deck`, `Rank` và `Suit` trong `e3.chapter3` được giữ nguyên từ mã nguồn đi kèm sách *Introduction to Software Design with Java* của Martin P. Robillard. Có thể tìm chúng trong thư mục `code-e3/e3/chapter3` của [repository DesignBook](https://github.com/prmr/DesignBook).
 
 Trong Eclipse, chạy lớp `singleton.Main`.
