@@ -7,56 +7,29 @@
 | Lớp | CNTT46D |
 | Bài | Thiết kế lại `GameModel` dùng Singleton |
 
-## Đề bài
+## Yêu cầu
 
-Thiết kế `GameModel` theo mẫu Singleton. Lớp có một biến thể hiện kiểu `Deck` và khởi tạo lại bộ bài mỗi khi gọi `newGame()`. Phần `GameModel` có thể chỉ là stub; ở đây mình bổ sung thao tác rút bài để minh họa trạng thái được chia sẻ.
+Thiết kế `GameModel` theo Singleton. Lớp có một biến thể hiện kiểu `Deck`; mỗi lần gọi `newGame()` thì bộ bài được khởi tạo lại. Phần `GameModel` có thể để dạng stub.
 
 ## Thiết kế
 
-```mermaid
-classDiagram
-    class GameModel {
-        -INSTANCE : GameModel
-        -aDeck : Deck
-        -GameModel()
-        +instance() GameModel
-        +newGame() void
-        +drawCard() Card
-        +deckSize() int
-    }
-    class Deck {
-        -aCards : List~Card~
-        +shuffle() void
-        +draw() Card
-        +getCards() List~Card~
-    }
-    class CardSource {
-        <<interface>>
-        +draw() Card
-        +isEmpty() boolean
-    }
-    GameModel --> Deck : giữ một bộ bài
-    Deck ..|> CardSource
-    Deck --> Card
-    Card --> Rank
-    Card --> Suit
-```
+![Sơ đồ lớp GameModel dùng Singleton](diagrams/exercise-9-class-diagram.svg)
 
-## Cách cài đặt Singleton
+[Mở bản sơ đồ HTML](diagrams/exercise-9-class-diagram.html).
 
-Trong `GameModel`, `INSTANCE` là biến `static final`, nên lớp giữ một đối tượng duy nhất. Constructor được đặt `private`, vì vậy mã bên ngoài không thể gọi `new GameModel()`. Các nơi cần dùng model gọi `GameModel.instance()` để nhận lại cùng đối tượng.
+## Giải pháp
 
-`aDeck` là biến thể hiện duy nhất có kiểu `Deck`. `newGame()` gọi `aDeck.shuffle()`: phương thức này xóa các lá cũ, tạo lại đủ 52 lá rồi xáo thứ tự. Như vậy ván mới dùng lại chính đối tượng `Deck` đang thuộc `GameModel`, nhưng có trạng thái bộ bài mới.
+`GameModel` giữ một đối tượng trong `INSTANCE`. Constructor `private` ngăn nơi khác gọi `new GameModel()`, còn `instance()` luôn trả về đối tượng đó.
 
-Các lớp `Card`, `Rank`, `Suit`, `CardSource` và `Deck` trong `e3.chapter3` được lấy từ phần mã nguồn sách đã có trong [repo tham khảo của Anh Khoa](https://github.com/AnhKhoa06/postclass05_singleton). README của repo đó ghi nguồn là [DesignBook của Martin P. Robillard](https://github.com/prmr/DesignBook), thư mục `code-e3/e3/chapter3`. Mình giữ nguyên phần `e3` này; `GameModel`, `Main` và phần trình bày bên ngoài là phần bài làm của mình.
+`aDeck` là bộ bài duy nhất của model. Khi bắt đầu ván, `newGame()` gọi `shuffle()`, hàm này tạo lại 52 lá rồi xáo chúng. Mình thêm `drawCard()` và `deckSize()` để Main có thể minh họa việc hai tham chiếu cùng nhìn thấy trạng thái bộ bài.
 
-`Deck.getCards()` trả về danh sách không thể sửa trực tiếp, nên `GameModel.deckSize()` dùng danh sách này để minh họa số lá còn lại.
+Các lớp `Card`, `CardSource`, `Deck`, `Rank` và `Suit` được giữ nguyên từ [repo tham khảo](https://github.com/AnhKhoa06/postclass05_singleton). README ở đó dẫn nguồn đến [DesignBook của Martin P. Robillard](https://github.com/prmr/DesignBook), thư mục `code-e3/e3/chapter3`. `GameModel` và `Main` là phần mình viết cho bài này.
 
-## Chương trình minh họa
+## Kết quả chạy
 
-`Main` gọi `instance()` hai lần và so sánh hai tham chiếu. Sau đó chương trình bắt đầu ván, rút một lá qua `first`, rồi kiểm tra số lá qua `second`. Cuối cùng, `newGame()` được gọi lần nữa để cho thấy bộ bài trở lại 52 lá.
+Main gọi `instance()` hai lần rồi rút một lá qua `first`. Qua `second`, bộ bài còn 51 lá, cho thấy cả hai tham chiếu dùng chung trạng thái. Gọi `newGame()` lần nữa thì bộ bài có lại 52 lá.
 
-Các dòng ổn định trong kết quả:
+Kết quả chính:
 
 ```text
 first == second: true
@@ -68,6 +41,6 @@ So la sau khi bat dau van moi: 52
 
 Lá rút ra thay đổi theo lần chạy vì bộ bài được xáo ngẫu nhiên.
 
-## Chạy trong Eclipse
+## Chạy
 
-Chạy lớp `singleton.Main`. Project dùng `src` làm source folder và không cần thư viện ngoài.
+Trong Eclipse, chạy `singleton.Main`. Project dùng `src` làm source folder.
